@@ -24,7 +24,8 @@ app.use(cors());
 app.get('/', (req, res) => {
     res.status(200).send('je suis a la racine /');
   })
-
+app.use('/login', routes.login);
+app.use('/user', routes.user);
 
 app.listen(port, (err) => {
 if (err) {
