@@ -18,7 +18,7 @@ let transporter = nodemailer.createTransport({
 });
 
 router.get("/", (req, res) => {
-  connection.query('SELECT * FROM users', (err, results) => {
+  connection.query('SELECT * FROM user', (err, results) => {
     if (err) {
       res.status(500).send("Erreur lors de l'affichage des informations de l'utilisateur");
     } else {
@@ -33,7 +33,7 @@ router.post("/", (req, res) => {
   const userMail = req.body['0'].mail
   const userDataAddress = req.body['1'];
 
-  connection.query(`SELECT mail FROM users WHERE mail = '${userMail}'`, (err, results) => {
+  connection.query(`SELECT mail FROM user WHERE mail = '${userMail}'`, (err, results) => {
     if (err) {
       console.log(err);
       res.status(500).send("Erreur lors de la vérification de l'email");
@@ -57,7 +57,7 @@ router.post("/account", (req, res, next) => {
   const userMail = req.body['0'];
   let userId = '';
   let mergeUserAndAdress = '';
-  connection.query(`SELECT * FROM users WHERE mail = '${userMail}'`, (err, results) => {
+  connection.query(`SELECT * FROM user WHERE mail = '${userMail}'`, (err, results) => {
     if(err) {
       console.log(err);
       return res.status(401).send({mess: "Vous n'avez pas accès aux données"});
@@ -85,7 +85,7 @@ router.put('/', (req, res) => {
   const lastNameUser = req.body.lastname;
   const userUpdate = req.body;
 
-  connection.query('UPDATE users SET ? WHERE firstname = ? AND lastname = ?', [userUpdate, firstNameUser, lastNameUser], err => {
+  connection.query('UPDATE user SET ? WHERE firstname = ? AND lastname = ?', [userUpdate, firstNameUser, lastNameUser], err => {
     if (err) {
       res.status(500).send("Erreur lors de la mise à jour de l'utilisateur");
     } else {
@@ -97,7 +97,7 @@ router.put('/', (req, res) => {
 router.delete("/", (req, res) => {
   const mailUser = req.body.mail;
 
-  connection.query('DELETE FROM users WHERE mail = ?', [mailUser], (err, results) => {
+  connection.query('DELETE FROM user WHERE mail = ?', [mailUser], (err, results) => {
     if (err) {
       res.status(500).send('Erreur lors de la suppression de la pizza');
     } else {
