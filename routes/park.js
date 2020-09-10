@@ -94,4 +94,17 @@ router.put('/', (req, res) => {
   })
 })
 
+router.delete('/', (req, res) => {
+
+  const place = req.query.place
+
+  connection.query(`DELETE FROM park INNER JOIN user ON idUser = user_idUser WHERE avaible = 'indisponible'`, [name], (err, results)  => {
+    if (err) {
+      res.status(500).send('Erreur lors de la suppression de la place de parking');
+    } else {
+      res.sendStatus(200);
+    }
+  });
+});
+
 module.exports = router;
